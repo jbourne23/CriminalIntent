@@ -38,10 +38,6 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setAdapter(adapter);
     }
 
-    private void anim() {
-        mCrimeRecyclerView.getAdapter().notifyItemMoved(0, 5);
-    }
-
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -67,9 +63,9 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
-            anim();
         }
     }
+
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
 
