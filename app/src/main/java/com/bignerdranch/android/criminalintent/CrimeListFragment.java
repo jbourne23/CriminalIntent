@@ -20,6 +20,8 @@ public class CrimeListFragment extends Fragment {
 
     private CrimeAdapter mCrimeAdapter;
 
+    private int crimeEditedPosition;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,10 +47,10 @@ public class CrimeListFragment extends Fragment {
         List<Crime> crimes = crimeLab.getCrimes();
 
         if (mCrimeAdapter == null) {
-            CrimeAdapter adapter = new CrimeAdapter(crimes);
-            mCrimeRecyclerView.setAdapter(adapter);
+            mCrimeAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mCrimeAdapter);
         } else {
-            mCrimeAdapter.notifyDataSetChanged();
+            mCrimeAdapter.notifyItemChanged(crimeEditedPosition);
         }
     }
 
@@ -61,7 +63,7 @@ public class CrimeListFragment extends Fragment {
 
         private Crime mCrime;
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+        CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
             itemView.setOnClickListener(this);
 
@@ -80,6 +82,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            crimeEditedPosition = getAdapterPosition();
             Intent crimeActivityIntent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
             startActivity(crimeActivityIntent);
         }
