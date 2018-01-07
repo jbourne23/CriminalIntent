@@ -18,6 +18,8 @@ public class CrimeListFragment extends Fragment {
 
     private RecyclerView mCrimeRecyclerView;
 
+    private CrimeAdapter mCrimeAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,12 +33,23 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateUI();
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        CrimeAdapter adapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(adapter);
+        if (mCrimeAdapter == null) {
+            CrimeAdapter adapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(adapter);
+        } else {
+            mCrimeAdapter.notifyDataSetChanged();
+        }
     }
 
 
